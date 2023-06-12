@@ -1,11 +1,15 @@
 import { Route, Routes } from "react-router-dom";
-import "./App.css";
+
+import ProductsPage from "./pages/ProductsPage";
+import AdminPage from "./pages/AdminPage";
+import ProductPage from "./pages/ProductDetailPage";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<h1>index</h1>} />
-      <Route path="/add-product" element={<h1>add product</h1>} />
+      <Route path="/" element={<ProductsPage />} />
+      <Route path="/admin" element={<AdminPage />} />
+      <Route path="/product/:id" element={<ProductPage />} />
     </Routes>
   );
 }
