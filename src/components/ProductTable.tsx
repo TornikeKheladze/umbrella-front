@@ -1,16 +1,8 @@
 import { Button, Table } from "antd";
 import { Product, ProductTableProps } from "../types/global";
-import "../App.css";
 import { Link } from "react-router-dom";
 
 const ProductTable: React.FC<ProductTableProps> = ({ list }) => {
-  const withKey = list?.map((product) => {
-    return {
-      ...product,
-      key: product.id,
-    };
-  });
-
   const columns = [
     {
       dataIndex: "image",
@@ -18,7 +10,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ list }) => {
       render: (text: string, record: Product) => {
         return (
           <img
-            className="table-image"
+            className="w-24"
             alt={record.name}
             src={record.images[0].image}
           />
@@ -75,7 +67,7 @@ const ProductTable: React.FC<ProductTableProps> = ({ list }) => {
     },
   ];
 
-  return <Table columns={columns} dataSource={withKey} />;
+  return <Table columns={columns} dataSource={list} />;
 };
 
 export default ProductTable;
