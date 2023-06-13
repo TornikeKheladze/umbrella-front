@@ -18,7 +18,7 @@ const CreateCategory = () => {
 
   return (
     <div className="m-8 flex flex-col gap-5">
-      <h1>Current Categories</h1>
+      <h1 className="font-bold text-3xl">Current Categories</h1>
       <div className="flex flex-wrap gap-5">
         {categories.length > 0 &&
           categories.map(({ category, id }) => (

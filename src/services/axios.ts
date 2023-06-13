@@ -42,3 +42,8 @@ export const createCategory = async (data: string) => {
   });
   return response;
 };
+
+export const deleteProduct = async (id: number) => {
+  const response = await instance.post("/api/product/destroy", { id: id });
+  return response;
+};

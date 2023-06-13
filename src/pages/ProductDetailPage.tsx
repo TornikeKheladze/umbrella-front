@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Card, Row, Col, List } from "antd";
-import { useParams } from "react-router-dom";
+import { Card, Row, Col, List, Button } from "antd";
+import { Link, useParams } from "react-router-dom";
 import { Product } from "../types/global";
 import { getSingleProduct } from "../services/axios";
 
@@ -9,16 +9,19 @@ const { Meta } = Card;
 const ProductDetailPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState<Product>();
-  const [displayedImage, setDisplayedImage] = useState<string | undefined>("");
 
   useEffect(() => {
     getSingleProduct(id).then((res) => setProduct(res.data[0]));
-    setDisplayedImage(product?.images[0].image);
   }, []);
 
-  console.log(product);
   return (
     <div>
+      <Link
+        className="block w-20 h-8 border border-green-700 rounded-md text-center align-middle"
+        to={"/"}
+      >
+        Home
+      </Link>
       {product && (
         <Row gutter={[16, 16]}>
           <Col span={12}>

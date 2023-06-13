@@ -1,8 +1,30 @@
 import { Button, Table } from "antd";
 import { Product, ProductTableProps } from "../types/global";
 import { Link } from "react-router-dom";
+import { deleteProduct, getAllProducts } from "../services/axios";
+import { useEffect, useState } from "react";
 
-const ProductTable: React.FC<ProductTableProps> = ({ list }) => {
+const ProductTable: React.FC = () => {
+  const [productList, setProductList] = useState<Product[]>([]);
+
+  const fetchProducts = () => {
+    getAllProducts().then((res) => {
+      const withCategoryAndKeys = res.data.map((product: Product) => {
+        return {
+          ...product,
+          category: product.categories
+            .map(({ category }) => category)
+            .join(","),
+          key: product.id,
+        };
+      });
+      setProductList(withCategoryAndKeys);
+    });
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
   const columns = [
     {
       dataIndex: "image",
@@ -31,7 +53,13 @@ const ProductTable: React.FC<ProductTableProps> = ({ list }) => {
       title: "Description",
       key: "description",
       render: (text: string, record: Product) => {
-        return <p>{record.description.slice(0, 30)}...</p>;
+        return (
+          <p>
+            {record.description.length > 29
+              ? record.description.slice(0, 30) + "..."
+              : record.description}
+          </p>
+        );
       },
     },
     {
@@ -43,9 +71,12 @@ const ProductTable: React.FC<ProductTableProps> = ({ list }) => {
       key: "view",
       render: (text: string, record: Product) => {
         return (
-          <Button>
-            <Link to={`/product/${record.id}`}>View Product</Link>
-          </Button>
+          <Link
+            className="block font-semibold pt-1 pr-2 pl-2 h-8 border border-green-700 rounded-md text-center"
+            to={`/product/${record.id}`}
+          >
+            View Product
+          </Link>
         );
       },
     },
@@ -54,10 +85,11 @@ const ProductTable: React.FC<ProductTableProps> = ({ list }) => {
       render: (text: string, record: Product) => {
         return (
           <Button
-            className="delete"
+            className="bg-red-600"
             type="primary"
-            onClick={() => {
-              console.log("delete");
+            onClick={async () => {
+              await deleteProduct(record.id);
+              fetchProducts();
             }}
           >
             Delete
@@ -67,7 +99,11 @@ const ProductTable: React.FC<ProductTableProps> = ({ list }) => {
     },
   ];
 
-  return <Table columns={columns} dataSource={list} />;
+  return productList.length > 0 ? (
+    <Table columns={columns} dataSource={productList} />
+  ) : (
+    <h1 className="font-bold text-3xl">No Products Yet</h1>
+  );
 };
 
 export default ProductTable;
