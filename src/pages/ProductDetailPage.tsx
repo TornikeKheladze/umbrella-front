@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Card, Row, Col, List, Button } from "antd";
+import { useEffect, useState } from "react";
+import { Card, Row, Col, List } from "antd";
 import { Link, useParams } from "react-router-dom";
 import { Product } from "../types/global";
 import { getSingleProduct } from "../services/axios";
@@ -48,7 +48,12 @@ const ProductDetailPage = () => {
             <Card>
               <Meta title={product.name} description={product.description} />
               <p>price: ${product.price}</p>
-              <p>category: {product.category}</p>
+              <p>
+                category:
+                {product.categories.map(({ category, id }) => (
+                  <span key={category + id}>{category}</span>
+                ))}
+              </p>
             </Card>
           </Col>
         </Row>

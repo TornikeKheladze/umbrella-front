@@ -1,30 +1,19 @@
-import { Button, Table } from "antd";
-import { Product, ProductTableProps } from "../types/global";
+import { Button, Select, Table } from "antd";
+import { Product } from "../types/global";
 import { Link } from "react-router-dom";
-import { deleteProduct, getAllProducts } from "../services/axios";
-import { useEffect, useState } from "react";
+import { deleteProduct } from "../services/axios";
+import useProducts from "../hooks/useProducts";
 
 const ProductTable: React.FC = () => {
-  const [productList, setProductList] = useState<Product[]>([]);
+  const {
+    list,
+    fetchProducts,
+    categories,
+    paramValue,
+    chooseCategoryHandler,
+    navigate,
+  } = useProducts();
 
-  const fetchProducts = () => {
-    getAllProducts().then((res) => {
-      const withCategoryAndKeys = res.data.map((product: Product) => {
-        return {
-          ...product,
-          category: product.categories
-            .map(({ category }) => category)
-            .join(","),
-          key: product.id,
-        };
-      });
-      setProductList(withCategoryAndKeys);
-    });
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
   const columns = [
     {
       dataIndex: "image",
@@ -89,6 +78,7 @@ const ProductTable: React.FC = () => {
             type="primary"
             onClick={async () => {
               await deleteProduct(record.id);
+              navigate("/");
               fetchProducts();
             }}
           >
@@ -99,10 +89,32 @@ const ProductTable: React.FC = () => {
     },
   ];
 
-  return productList.length > 0 ? (
-    <Table columns={columns} dataSource={productList} />
-  ) : (
-    <h1 className="font-bold text-3xl">No Products Yet</h1>
+  const categoryList = (
+    <div className="flex gap-2 flex-wrap">
+      {categories.length > 0 &&
+        categories.map(({ category, id }) => (
+          <p
+            className={`${
+              paramValue?.includes(category) && "bg-green-600"
+            } border border-green-900 rounded-lg p-2 cursor-pointer`}
+            key={category + id}
+            onClick={() => chooseCategoryHandler(category)}
+          >
+            {category}
+          </p>
+        ))}
+    </div>
+  );
+
+  return (
+    <>
+      {categoryList}
+      {list.length > 0 ? (
+        <Table columns={columns} dataSource={list} />
+      ) : (
+        <h1 className="font-bold text-3xl">No Products Yet</h1>
+      )}
+    </>
   );
 };
 

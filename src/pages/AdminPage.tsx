@@ -8,7 +8,7 @@ const AddUserForm: React.FC = () => {
   const { pathname } = useLocation();
   return (
     <>
-      <header className="flex items-center justify-between m-6">
+      <header className="flex items-center justify-center gap-4 m-6">
         <Link
           className="block pr-2 pl-2 h-8 border border-green-700 rounded-md text-center align-middle"
           to={"/"}
