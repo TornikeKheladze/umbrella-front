@@ -13,11 +13,28 @@ const normFile = (e: any) => {
 };
 
 const CreateProductForm = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
+  // const [categories, setCategories] = useState<Category[]>([]);
 
-  useEffect(() => {
-    getCategories().then((res) => setCategories(res.data));
-  }, []);
+  // useEffect(() => {
+  //   getCategories().then((res) => setCategories(res.data));
+  // }, []);
+
+  const dummyTags = [
+    { id: 1, category: "ახალი" },
+    { id: 2, category: "მეორადი" },
+    { id: 3, category: "ახალივით" },
+    { id: 4, category: "უნაკაწრო" },
+    { id: 5, category: "ერთხელაა გარეცხილი" },
+    { id: 6, category: "არ მცმია" },
+    { id: 7, category: "ექიმის ნახმარი" },
+  ];
+  const dummyCategories = [
+    { id: 1, category: "Men's Apparel" },
+    { id: 2, category: "Women's Apparel" },
+    { id: 3, category: "Footwear" },
+    { id: 4, category: "Accessories" },
+    { id: 5, category: "Sportswear" },
+  ];
 
   const navigate = useNavigate();
 
@@ -28,6 +45,7 @@ const CreateProductForm = () => {
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
+
   return (
     <Form
       labelCol={{ span: 8 }}
@@ -36,6 +54,7 @@ const CreateProductForm = () => {
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
+      className="flex flex-col"
     >
       <h1 className="font-bold text-2xl text-center mb-4">Create Product</h1>
       <Form.Item
@@ -45,7 +64,7 @@ const CreateProductForm = () => {
       >
         <Input />
       </Form.Item>
-      <Form.Item
+      {/* <Form.Item
         label="Choose category"
         name="category"
         rules={[{ required: true, message: "Please input product name!" }]}
@@ -58,6 +77,32 @@ const CreateProductForm = () => {
               </Select.Option>
             ))}
         </Select>
+      </Form.Item> */}
+      <Form.Item
+        label="Choose category"
+        name="category"
+        rules={[{ required: true, message: "Please input product name!" }]}
+      >
+        <Select mode="tags" style={{ width: "100%" }} placeholder="category">
+          {dummyCategories.map(({ category, id }) => (
+            <Select.Option key={id} value={String(id)}>
+              {category}
+            </Select.Option>
+          ))}
+        </Select>
+      </Form.Item>
+      <Form.Item
+        label="Choose Tags"
+        name="tags"
+        rules={[{ required: true, message: "Please input product name!" }]}
+      >
+        <Select mode="tags" style={{ width: "100%" }} placeholder="tags">
+          {dummyTags.map(({ category, id }) => (
+            <Select.Option key={id} value={String(id)}>
+              {category}
+            </Select.Option>
+          ))}
+        </Select>
       </Form.Item>
 
       <Form.Item
@@ -69,6 +114,14 @@ const CreateProductForm = () => {
       >
         <Input.TextArea rows={4} />
       </Form.Item>
+      <a
+        href="https://ahrefs.com/writing-tools/product-description-generator"
+        className="w-[400px] ml-auto mb-3 rounded-md border-blue-500 border-[1px] p-1"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Generate Auto Description with AI
+      </a>
 
       <Form.Item
         label="price"

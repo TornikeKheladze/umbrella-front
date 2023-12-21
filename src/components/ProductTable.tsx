@@ -1,4 +1,4 @@
-import { Button, Select, Table } from "antd";
+import { Button, Table } from "antd";
 import { Product } from "../types/global";
 import { Link } from "react-router-dom";
 import { deleteProduct } from "../services/axios";
@@ -23,7 +23,7 @@ const ProductTable: React.FC = () => {
           <img
             className="w-24"
             alt={record.name}
-            src={record.images[0].image}
+            src={record.images[0]?.image || ""}
           />
         );
       },
@@ -105,6 +105,7 @@ const ProductTable: React.FC = () => {
         ))}
     </div>
   );
+  console.log(list);
 
   return (
     <>

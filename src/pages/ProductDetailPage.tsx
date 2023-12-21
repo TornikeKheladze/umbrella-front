@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, Row, Col, List } from "antd";
+import { Card, Row, Col, List, Dropdown, Space, Button } from "antd";
 import { Link, useParams } from "react-router-dom";
 import { Product } from "../types/global";
 import { getSingleProduct } from "../services/axios";
@@ -46,6 +46,9 @@ const ProductDetailPage = () => {
           </Col>
           <Col span={12}>
             <Card>
+              <Button className="bg-blue-600">USD</Button>
+              <Button>GEL</Button>
+              <Button className="mb-2">EUR</Button>
               <Meta title={product.name} description={product.description} />
               <p>price: ${product.price}</p>
               <p>

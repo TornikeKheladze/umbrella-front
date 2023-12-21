@@ -8,6 +8,9 @@ const AddUserForm: React.FC = () => {
   const { pathname } = useLocation();
   return (
     <>
+      <header className="flex bg-credo items-center justify-center gap-4 h-32">
+        <h1 className="text-white font-extrabold text-4xl">CredoMerce</h1>
+      </header>
       <header className="flex items-center justify-center gap-4 m-6">
         <Link
           className="block pr-2 pl-2 h-8 border border-green-700 rounded-md text-center align-middle"
